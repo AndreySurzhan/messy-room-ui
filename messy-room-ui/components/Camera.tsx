@@ -4,11 +4,12 @@ import { View, Text, Button, StyleSheet, Pressable, LayoutChangeEvent } from 're
 import TakePictureButton from './Buttons/TakePictureButton';
 import Panel from './Panel';
 import * as ScreenOrientation from "expo-screen-orientation";
+import { useOrientation } from '@/hooks/orientation';
 
 export default function Camera({ onPictureTaken }: { onPictureTaken: (uri: string) => void }) {
   const [permission, requestPermission] = useCameraPermissions();
   const ref = useRef<CameraView>(null);
-  const [orientation, setOrientation] = useState<ScreenOrientation.Orientation>(ScreenOrientation.Orientation.UNKNOWN);
+  const orientation = useOrientation();
 
   if (!permission) {
     return null;
@@ -30,13 +31,8 @@ export default function Camera({ onPictureTaken }: { onPictureTaken: (uri: strin
     onPictureTaken(photo?.uri ?? "");
   };
 
-  const handleLayout = (event: LayoutChangeEvent) => {
-    const { width, height } = event.nativeEvent.layout;
-    setOrientation(width > height ? ScreenOrientation.Orientation.LANDSCAPE_RIGHT : ScreenOrientation.Orientation.PORTRAIT_UP);
-  };
-
   return (
-    <View style={styles.container} onLayout={handleLayout}>
+    <View style={styles.container}>
       <CameraView
         ref={ref}
         mode={"picture"}
