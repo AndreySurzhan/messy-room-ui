@@ -23,3 +23,10 @@ export const useOrientation = () => {
 
   return orientation;
 };
+
+export const useIsPortrait = () => {
+  const orientation = useOrientation();
+  const portraitOrientations = [ScreenOrientation.Orientation.PORTRAIT_UP, ScreenOrientation.Orientation.PORTRAIT_DOWN];
+
+  return portraitOrientations.includes(orientation);
+};

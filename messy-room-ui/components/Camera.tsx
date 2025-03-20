@@ -1,15 +1,25 @@
-import { CameraView, useCameraPermissions } from 'expo-camera';
-import { useRef, useState } from 'react';
-import { View, Text, Button, StyleSheet, Pressable, LayoutChangeEvent } from 'react-native';
-import TakePictureButton from './Buttons/TakePictureButton';
-import Panel from './Panel';
-import * as ScreenOrientation from "expo-screen-orientation";
-import { useOrientation } from '@/hooks/orientation';
+import { CameraView, useCameraPermissions } from "expo-camera";
+import { useRef, useState } from "react";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  Pressable,
+  LayoutChangeEvent,
+} from "react-native";
+import TakePictureButton from "./Buttons/TakePictureButton";
+import Panel from "./Panel";
+import { useIsPortrait } from "@/hooks/orientation";
 
-export default function Camera({ onPictureTaken }: { onPictureTaken: (uri: string) => void }) {
+export default function Camera({
+  onPictureTaken,
+}: {
+  onPictureTaken: (uri: string) => void;
+}) {
   const [permission, requestPermission] = useCameraPermissions();
   const ref = useRef<CameraView>(null);
-  const orientation = useOrientation();
+  const isPortrait = useIsPortrait();
 
   if (!permission) {
     return null;
@@ -41,7 +51,9 @@ export default function Camera({ onPictureTaken }: { onPictureTaken: (uri: strin
         responsiveOrientationWhenOrientationLocked
         style={styles.camera}
       >
-        <Text style={{ color: "white", fontSize: 35 }}>{orientation}</Text>
+        <Text style={{ color: "white", fontSize: 35 }}>
+          {isPortrait ? "Portrait" : "Landscape"}
+        </Text>
         <Panel>
           <TakePictureButton onPress={takePicture} />
         </Panel>
@@ -62,5 +74,5 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-  }
+  },
 });

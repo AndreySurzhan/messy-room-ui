@@ -1,9 +1,27 @@
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from "react-native";
 
-export default function BaseButton({ onPress, color }: { onPress: () => void, color: string }) {
-  return <Pressable onPress={onPress} style={[styles.button, { borderColor: color }]}>
-    {({ pressed }) => <View style={[styles.inner, { opacity: pressed ? 0.5 : 1, backgroundColor: color }]} />}
-  </Pressable>;
+export default function BaseButton({
+  onPress,
+  color,
+}: {
+  onPress: () => void;
+  color: string;
+}) {
+  return (
+    <Pressable
+      onPress={onPress}
+      style={[styles.button, { borderColor: color }]}
+    >
+      {({ pressed }) => (
+        <View
+          style={[
+            styles.inner,
+            { opacity: pressed ? 0.5 : 1, backgroundColor: color },
+          ]}
+        />
+      )}
+    </Pressable>
+  );
 }
 
 const styles = StyleSheet.create({

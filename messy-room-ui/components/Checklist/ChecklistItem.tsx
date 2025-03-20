@@ -1,19 +1,21 @@
-import { Checkbox } from 'expo-checkbox';
-import { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Checkbox } from "expo-checkbox";
+import { useState } from "react";
+import { Text, StyleSheet, Pressable } from "react-native";
 
 export default function ChecklistItem({ item }: { item: string }) {
   const [isChecked, setChecked] = useState(false);
 
-  return <View style={styles.container} >
-    <Checkbox
-      style={styles.checkbox}
-      value={isChecked}
-      onValueChange={setChecked}
-      color={isChecked ? '#4630EB' : undefined}
-    />
-    <Text style={styles.paragraph}>{item}</Text>
-  </View>;
+  return (
+    <Pressable style={styles.container} onPress={() => setChecked(!isChecked)}>
+      <Checkbox
+        style={styles.checkbox}
+        value={isChecked}
+        onValueChange={setChecked}
+        color={isChecked ? "#4630EB" : undefined}
+      />
+      <Text style={styles.paragraph}>{item}</Text>
+    </Pressable>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -24,11 +26,11 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   checkbox: {
-    width: 20,
-    height: 20,
+    width: 32,
+    height: 32,
   },
   paragraph: {
-    fontSize: 16,
+    fontSize: 28,
     color: "white",
   },
 });

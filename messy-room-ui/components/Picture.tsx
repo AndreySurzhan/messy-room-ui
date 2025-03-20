@@ -1,19 +1,31 @@
-import { Image, View, Button, StyleSheet } from "react-native";
-import PlaySpeechButton from './Buttons/PlaySpeechButton';
-import Panel from './Panel';
-import ShowChecklistButton from './Buttons/ShowChecklistButton';
-import TakePictureButton from './Buttons/TakePictureButton';
+import { Image, View, StyleSheet } from "react-native";
+import PlaySpeechButton from "./Buttons/PlaySpeechButton";
+import Panel from "./Panel";
+import ShowChecklistButton from "./Buttons/ShowChecklistButton";
+import TakePictureButton from "./Buttons/TakePictureButton";
 
-export default function Picture({ uri, onPlaySpeech, onShowChecklist, onRetakePicture }: { uri: string, onPlaySpeech: () => void, onShowChecklist: () => void, onRetakePicture: () => void }) {
-  return <View style={styles.container}>
-    <Image source={{ uri }} style={styles.image} />
+export default function Picture({
+  uri,
+  onPlaySpeech,
+  onShowChecklist,
+  onRetakePicture,
+}: {
+  uri: string;
+  onPlaySpeech: () => void;
+  onShowChecklist: () => void;
+  onRetakePicture: () => void;
+}) {
+  return (
+    <View style={styles.container}>
+      <Image source={{ uri }} style={styles.image} />
 
-    <Panel>
-      <PlaySpeechButton onPress={onPlaySpeech} />
-      <ShowChecklistButton onPress={onShowChecklist} />
-      <TakePictureButton onPress={onRetakePicture} />
-    </Panel>
-  </View>;
+      <Panel>
+        <PlaySpeechButton onPress={onPlaySpeech} />
+        <ShowChecklistButton onPress={onShowChecklist} />
+        <TakePictureButton onPress={onRetakePicture} />
+      </Panel>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

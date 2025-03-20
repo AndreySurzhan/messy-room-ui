@@ -1,5 +1,9 @@
-import BaseButton from './Base';
+import BaseButton from "./Base";
 
-export default function ShowChecklistButton({ onPress }: { onPress: () => void }) {
+export default function ShowChecklistButton({
+  onPress,
+}: {
+  onPress: () => void;
+}) {
   return <BaseButton onPress={onPress} color="orange" />;
 }

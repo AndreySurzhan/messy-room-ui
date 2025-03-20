@@ -1,28 +1,54 @@
-import { ScrollView, StyleSheet } from 'react-native';
-import ChecklistItem from './ChecklistItem';
+import { StyleSheet, SectionList, SectionListData } from "react-native";
+import ChecklistItem from "./ChecklistItem";
+import { useIsPortrait } from "@/hooks/orientation";
+import { useDimensions } from "@/hooks/device";
+import { SIZES } from "@/constants/layout";
 
-export default function Checklist({ items }: { items: string[] }) {
-  return <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer} >
-    {items.map((item, index) => (
-      <ChecklistItem key={index} item={item} />
-    ))}
-  </ScrollView>;
+export default function Checklist({
+  items,
+}: {
+  items: SectionListData<string>[];
+}) {
+  const isPortrait = useIsPortrait();
+  const { window } = useDimensions();
+  const size = isPortrait
+    ? { height: window.height - SIZES.PANEL.HEIGHT }
+    : { width: window.width - SIZES.PANEL.WIDTH };
+
+  return (
+    <SectionList
+      style={[styles.container, size]}
+      contentContainerStyle={styles.contentContainer}
+      sections={items}
+      keyExtractor={(item, index) => `${item}-${index}`}
+      renderItem={({ item }) => <ChecklistItem item={item} />}
+    />
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
     top: 0,
-    padding: 20,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    left: 0,
+    backgroundColor: "rgba(201, 90, 90, 0.5)",
     zIndex: 1000,
+    maxWidth: "100%",
+    height: "100%",
   },
   contentContainer: {
+    paddingInline: 20,
+    paddingBlock: 10,
     display: "flex",
     flexDirection: "column",
-    gap: 20,
+    gap: 15,
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    flexGrow: 1,
+  },
+  landscape: {
+    marginRight: 200,
+  },
+  portrait: {
+    marginBottom: 100,
   },
 });
