@@ -10,8 +10,8 @@ import {
 } from "react-native";
 import TakePictureButton from "./Buttons/TakePictureButton";
 import Panel from "./Panel";
-import { useIsPortrait } from "@/hooks/orientation";
-
+import { useIsPortrait } from "../hooks/orientation";
+import { useRoomCleanlinessStatus } from "../services/room-status";
 export default function Camera({
   onPictureTaken,
 }: {
@@ -20,6 +20,7 @@ export default function Camera({
   const [permission, requestPermission] = useCameraPermissions();
   const ref = useRef<CameraView>(null);
   const isPortrait = useIsPortrait();
+  const { mutate: getRoomCleanlinessStatus } = useRoomCleanlinessStatus();
 
   if (!permission) {
     return null;
@@ -38,7 +39,14 @@ export default function Camera({
 
   const takePicture = async () => {
     const photo = await ref.current?.takePictureAsync();
-    onPictureTaken(photo?.uri ?? "");
+
+    if (photo?.uri) {
+      onPictureTaken(photo.uri);
+
+      const result = await getRoomCleanlinessStatus({ picture: photo.uri });
+
+      console.log(result);
+    }
   };
 
   return (
